@@ -8,21 +8,21 @@
 
 <?php echo $this->Form->create('Transports');?>
 <label>Station : </label> 
-<select>
+<select name="data[Transport][Station]">
   <option value="volvo">Volvo</option>
   <option value="saab">Saab</option>
   <option value="mercedes">Mercedes</option>
   <option value="audi">Audi</option>
 </select>
 <label>Destination : </label> 
-<select>
+<select name="data[Transport][Destination]">
   <option value="volvo">Volvo</option>
   <option value="saab">Saab</option>
   <option value="mercedes">Mercedes</option>
   <option value="audi">Audi</option>
 </select> 
-<label>Destination : </label> 
-<select>
+<label>Numero du BUS : </label> 
+<select name="data[Transport][numBus]">
   <option value="volvo">Volvo</option>
   <option value="saab">Saab</option>
   <option value="mercedes">Mercedes</option>
