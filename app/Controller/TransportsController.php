@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('HttpSocket','Network/Http');
 /**
  * Transports Controller
  *
@@ -25,8 +26,15 @@ class TransportsController extends AppController {
 	public function search() {
 		$this->layout='layout';
 		debug($this->request->data);
+		$infosBus = new HttpSocket(array('ssl_allow_self_signed' => true)); 
+		$infosBus = $infosBus -> get("http://pt.data.tisseo.fr/stopAreasList?displayLines=1&lineId=1970324837185012&format=json&key=a03561f2fd10641d96fb8188d209414d8"); 
+		echo gettype($infosBus); $infosBus = json_decode($infosBus); // retourne toute les lignes des arret de l université paul sabatier 
+		for ($i=1; $i <14 ; $i++) { 
+			echo $infosBus->stopAreas->stopArea[0]->line[$i]->shortName." "; 
+		}
+
 		//$this->Transport->recursive = 0;
-		//$this->set('transports', $this->paginate());
+		$this->set('LignesBus', $infosBus->stopAreas);
 	}
 
 /**
