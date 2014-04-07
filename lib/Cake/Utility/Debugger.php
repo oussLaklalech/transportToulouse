@@ -500,6 +500,8 @@ class Debugger {
 				return strtolower(gettype($var));
 			case 'null':
 				return 'null';
+			case 'unknown':
+				return 'unknown';
 			default:
 				return self::_object($var, $depth - 1, $indent + 1);
 		}
@@ -591,24 +593,20 @@ class Debugger {
 			if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
 				$ref = new ReflectionObject($var);
 
-				$reflectionProperties = $ref->getProperties(ReflectionProperty::IS_PROTECTED);
-				foreach ($reflectionProperties as $reflectionProperty) {
-					$reflectionProperty->setAccessible(true);
-					$property = $reflectionProperty->getValue($var);
+				$filters = array(
+					ReflectionProperty::IS_PROTECTED => 'protected',
+					ReflectionProperty::IS_PRIVATE => 'private',
+				);
+				foreach ($filters as $filter => $visibility) {
+					$reflectionProperties = $ref->getProperties($filter);
+					foreach ($reflectionProperties as $reflectionProperty) {
+						$reflectionProperty->setAccessible(true);
+						$property = $reflectionProperty->getValue($var);
 
-					$value = self::_export($property, $depth - 1, $indent);
-					$key = $reflectionProperty->name;
-					$props[] = "[protected] $key => " . $value;
-				}
-
-				$reflectionProperties = $ref->getProperties(ReflectionProperty::IS_PRIVATE);
-				foreach ($reflectionProperties as $reflectionProperty) {
-					$reflectionProperty->setAccessible(true);
-					$property = $reflectionProperty->getValue($var);
-
-					$value = self::_export($property, $depth - 1, $indent);
-					$key = $reflectionProperty->name;
-					$props[] = "[private] $key => " . $value;
+						$value = self::_export($property, $depth - 1, $indent);
+						$key = $reflectionProperty->name;
+						$props[] = sprintf('[%s] %s => %s', $visibility, $key, $value);
+					}
 				}
 			}
 
@@ -847,11 +845,11 @@ class Debugger {
  * @return void
  */
 	public static function checkSecurityKeys() {
-		if (Configure::read('Security.salt') === 'DYhG93b0qyJfIxfs2guuV2G0FgqyJfIxfs2guVaC9mi') {
+		if (Configure::read('Security.salt') === 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi') {
 			trigger_error(__d('cake_dev', 'Please change the value of \'Security.salt\' in app/Config/core.php to a salt value specific to your application'), E_USER_NOTICE);
 		}
 
-		if (Configure::read('Security.cipherSeed') === '768593096574535424967496833096574535424967645') {
+		if (Configure::read('Security.cipherSeed') === '76859309657453542496749683645') {
 			trigger_error(__d('cake_dev', 'Please change the value of \'Security.cipherSeed\' in app/Config/core.php to a numeric (digits only) seed value specific to your application'), E_USER_NOTICE);
 		}
 	}
