@@ -24,17 +24,81 @@ class TransportsController extends AppController {
  * @return void
  */
 	public function search() {
+			$this->layout='layout';
+			$infosBus = new HttpSocket(array('ssl_allow_self_signed' => true)); // Retourne les numeros de BUS
+			$infosBus = $infosBus -> get("http://pt.data.tisseo.fr/stopAreasList?displayLines=1&lineId=1970324837185012&format=json&key=a03561f2fd10641d96fb8188d209414d8");
+			$infosBus = json_decode($infosBus); // retourne toute les lignes des arret de l université paul sabatier
+
+			//$result=getInfoLigne(2,3,4);
+
+			//$this->Transport->recursive = 0;
+			$this->set('LignesBus', $infosBus->stopAreas);
+			//debug($infosBus1);
+			$infosBus4 = new HttpSocket(array('ssl_allow_self_signed' => true));//Retourne les destinations + LignesBus
+			$infosBus4 = $infosBus4 -> get("http://pt.data.tisseo.fr/stopPointsList?format=json&lineShortName=54&stopAreaId=1970324837185012&displayLines=1&key=a03561f2fd10641d96fb8188d209414d8");
+			$infosBus4 = json_decode($infosBus4);
+			$this->set('DestinationsBus', $infosBus4->physicalStops);
+			$ligneDestinations=$infosBus4->physicalStops;
+			$arrayDestinationLignes= array();
+			// construction de la table de correspondance
+			for($j=0;$j<count($ligneDestinations->physicalStop);$j++){ 
+				for ($e=0; $e <count($ligneDestinations->physicalStop[$j]->destinations) ; $e++){
+					for ($i=0; $i <count($ligneDestinations->physicalStop[$j]->destinations[$e]->line) ; $i++) { 
+						array_push($arrayDestinationLignes, array($ligneDestinations->physicalStop[$j]->destinations[$e]->name => $ligneDestinations->physicalStop[$j]->destinations[$e]->line[$i]->shortName));
+				 }
+			}
+     	}	
+
+		$this->set('destinationLigne', $arrayDestinationLignes);
+
+}
+
+/**
+ * view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function result() {
 		$this->layout='layout';
 		debug($this->request->data);
-		$infosBus = new HttpSocket(array('ssl_allow_self_signed' => true)); 
-		$infosBus = $infosBus -> get("http://pt.data.tisseo.fr/stopAreasList?displayLines=1&lineId=1970324837185012&format=json&key=a03561f2fd10641d96fb8188d209414d8"); 
-		echo gettype($infosBus); $infosBus = json_decode($infosBus); // retourne toute les lignes des arret de l université paul sabatier 
-		for ($i=1; $i <14 ; $i++) { 
-			echo $infosBus->stopAreas->stopArea[0]->line[$i]->shortName." "; 
-		}
 
-		//$this->Transport->recursive = 0;
-		$this->set('LignesBus', $infosBus->stopAreas);
+		if ($this->request->is('post')) {
+			$data = $this->request->data;
+
+
+		$infosBus4 = new HttpSocket(array('ssl_allow_self_signed' => true));//Retourne les destinations + LignesBus
+			$infosBus4 = $infosBus4 -> get("http://pt.data.tisseo.fr/stopPointsList?format=json&lineShortName=54&stopAreaId=1970324837185012&displayLines=1&key=a03561f2fd10641d96fb8188d209414d8");
+			$infosBus4 = json_decode($infosBus4);
+
+			//debug($infosBus4);
+
+
+for($j=0;$j<count($infosBus4->physicalStops->physicalStop);$j=$j+1){ 
+	for ($e=0; $e <count($infosBus4->physicalStops->physicalStop[$j]->destinations) ; $e++){ 
+		for ($i=0; $i <count($infosBus4->physicalStops->physicalStop[$j]->destinations[$e]->line) ; $i++) { 
+			if (strcmp($infosBus4->physicalStops->physicalStop[$j]->destinations[$e]->name,$data['Transport']['Destination'])==0 && $infosBus4->physicalStops->physicalStop[$j]->destinations[$e]->line[$i]->shortName==$data['Transport']['numBus']){ 
+					$valeur=$infosBus4->physicalStops->physicalStop[$j]->operatorCodes[0]->operatorCode->value; 
+					$Idline=$infosBus4->physicalStops->physicalStop[$j]->destinations[$e]->line[0]->id;
+					break; 
+				}
+			}
+		}
+	 }
+
+
+
+
+			$ResultBus = new HttpSocket(array('ssl_allow_self_signed' => true));
+			$ResultBus = $ResultBus -> get("http://pt.data.tisseo.fr/departureBoard?lineId=".$Idline."&operatorCode=".$valeur."&format=json&key=a03561f2fd10641d96fb8188d209414d8");
+			$ResultBus = json_decode($ResultBus);
+			$this->set('ResultBus', $ResultBus);
+
+			//debug($infosBus2);
+		} else {
+			$this->redirect(array('action' => 'search'));
+		}
 	}
 
 /**

@@ -146,7 +146,7 @@ button:hover, .button:hover{
 
 #main .footer{
 	margin: 0 15px;
-	text-align: center;
+	text-align: right;
 	text-shadow: 1px 1px 0px #ffffff;
 }
 #main .footer a{
