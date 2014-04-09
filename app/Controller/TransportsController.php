@@ -13,16 +13,6 @@ class TransportsController extends AppController {
  *
  * @return void
  */
-	public function index() {
-		$this->Transport->recursive = 0;
-		$this->set('transports', $this->paginate());
-	}
-
-/**
- * index method
- *
- * @return void
- */
 	public function search() {
 			$this->layout='layout';
 			$infosBus = new HttpSocket(array('ssl_allow_self_signed' => true)); // Retourne les numeros de BUS
@@ -71,12 +61,16 @@ class TransportsController extends AppController {
  * @return void
  */
 	public function result() {
-		$this->layout='layout';
-		debug($this->request->data);
+		$this->layout='layoutColor';
+		//debug($this->request->data);
 
-		if ($this->request->is('post')) {
-			$data = $this->request->data;
+		if ($this->request->is('get')) {
+			$data = $this->request->query['data'];
 
+			//*********************************************************************************************
+			//************** le cas d'un bus/metro******************************************************
+			//********************************************************************************************
+			
 			if($data['Transport']['Choix'] == "busMetro"){
 				$infosBus4 = new HttpSocket(array('ssl_allow_self_signed' => true));//Retourne les destinations + LignesBus
 			$infosBus4 = $infosBus4 -> get("http://pt.data.tisseo.fr/stopPointsList?format=json&lineShortName=54&stopAreaId=1970324837185012&displayLines=1&key=a03561f2fd10641d96fb8188d209414d8");
@@ -102,9 +96,36 @@ class TransportsController extends AppController {
 			$ResultBus = new HttpSocket(array('ssl_allow_self_signed' => true));
 			$ResultBus = $ResultBus -> get("http://pt.data.tisseo.fr/departureBoard?lineId=".$Idline."&operatorCode=".$valeur."&format=json&key=a03561f2fd10641d96fb8188d209414d8");
 			$ResultBus = json_decode($ResultBus);
+
+			//***********************************************
+			//ajouter le transport a la BDD s'il nexiste pas
+			//***********************************************
+			$id_api=$data['Transport']['numBus'];
+			if(isset($id_api))
+				$resultQuery = $this->Transport->query("SELECT * FROM transports WHERE transports.id_api = '$id_api';");
+			
+		//Si le moyen de transport n'a jamais été ajouté à la BDD
+		if(empty($resultQuery) && isset($id_api)) {
+			$success=$this->Transport->save(array(
+				'like' => 0,
+				'unlike' => 0,
+				'id_api' => "$id_api"
+				));
+			$nblike=0;
+			$nbunlike=0;
+		} else {
+			$nblike=$resultQuery[0]['transports']['like'];
+			$nbunlike=$resultQuery[0]['transports']['unlike'];
+		}
+
+			$this->set('nblike',$nblike);
+			$this->set('nbunlike',$nbunlike);
 			$this->set('ResultBus', $ResultBus);
 			$this->set('choix',$data['Transport']['Choix']);
 
+			//*********************************************************************************************
+			//************** le cas d'un velo******************************************************
+			//********************************************************************************************
 			} else if($data['Transport']['Choix'] == "velo") {
 					$stationVelo = array();
 
@@ -115,17 +136,67 @@ class TransportsController extends AppController {
 					for ($i=0; $i <count($infosVelo) ; $i++) { 
 					if($infosVelo[$i]->number==$data['Transport']['Station']){
 						array_push($stationVelo, $infosVelo[$i]);
-					//echo "name ".$infosVelo[$i]->name."<br />"; 
-					//echo "nombre place libre ".$infosVelo[$i]->available_bike_stands."<br/>"; 
-					//echo "nombre de velo dispo ".$infosVelo[$i]->available_bikes."<br/>"; 
 					break;
 						} 
 					}
+					//***********************************************
+					//ajouter le transport a la BDD s'il nexiste pas
+					//***********************************************
+					$id_api="velo";
+				$resultQuery = $this->Transport->query("SELECT * FROM transports WHERE transports.id_api = '$id_api';");
+					
+				//Si le moyen de transport n'a jamais été ajouté à la BDD
+				if(empty($resultQuery) && isset($id_api)) {
+					$success=$this->Transport->save(array(
+						'like' => 0,
+						'unlike' => 0,
+						'id_api' => "$id_api"
+						));
+					$nblike=0;
+					$nbunlike=0;
+				} else {
+					$nblike=$resultQuery[0]['transports']['like'];
+					$nbunlike=$resultQuery[0]['transports']['unlike'];
+				}
+
+					$this->set('nblike',$nblike);
+					$this->set('nbunlike',$nbunlike);
 					$this->set('stationVelo',$stationVelo);
 					$this->set('choix',$data['Transport']['Choix']);
 
+			//*********************************************************************************************
+			//************** le cas d'un choix n'importe******************************************************
+			//********************************************************************************************
 			} else {
 
+			$infosBus4 = new HttpSocket(array('ssl_allow_self_signed' => true));//Retourne les destinations + LignesBus
+			$infosBus4 = $infosBus4 -> get("http://pt.data.tisseo.fr/stopPointsList?format=json&lineShortName=54&stopAreaId=1970324837185012&displayLines=1&key=a03561f2fd10641d96fb8188d209414d8");
+			$infosBus4 = json_decode($infosBus4);
+
+			//debug($infosBus4);
+			$valeur=array();
+			$Idline=array();
+
+				for($j=0;$j<count($infosBus4->physicalStops->physicalStop);$j=$j+1){ 
+					for ($e=0; $e <count($infosBus4->physicalStops->physicalStop[$j]->destinations) ; $e++){ 
+						for ($i=0; $i <count($infosBus4->physicalStops->physicalStop[$j]->destinations[$e]->line) ; $i++) { 
+							if (strcmp($infosBus4->physicalStops->physicalStop[$j]->destinations[$e]->name,$data['Transport']['Destination'])==0){ 
+									array_push($valeur,$infosBus4->physicalStops->physicalStop[$j]->operatorCodes[0]->operatorCode->value); 
+									array_push($Idline,$infosBus4->physicalStops->physicalStop[$j]->destinations[$e]->line[0]->id);
+								echo $i."  ";
+									break; 
+									}
+							}
+						}
+					 }
+
+			for ($i=0; $i <count($valeur) ; $i++) { 
+				$ResultBus[$i] = new HttpSocket(array('ssl_allow_self_signed' => true));
+				$ResultBus[$i] = $ResultBus[$i] -> get("http://pt.data.tisseo.fr/departureBoard?lineId=".$Idline[$i]."&operatorCode=".$valeur[$i]."&format=json&key=a03561f2fd10641d96fb8188d209414d8");
+				$ResultBus[$i] = json_decode($ResultBus[$i]);	
+				}
+			
+				$this->set('nimporte',$ResultBus);
 				$this->set('choix',$data['Transport']['Choix']);
 			}
 		
@@ -136,80 +207,44 @@ class TransportsController extends AppController {
 
 	}
 
-/**
- * view method
+	/**
+ * like method
  *
- * @throws NotFoundException
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		if (!$this->Transport->exists($id)) {
-			throw new NotFoundException(__('Invalid transport'));
-		}
-		$options = array('conditions' => array('Transport.' . $this->Transport->primaryKey => $id));
-		$this->set('transport', $this->Transport->find('first', $options));
-	}
+	public function like($type = null, $id = null) {
+		//$this->Transport->id_api = $id;
 
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Transport->create();
-			if ($this->Transport->save($this->request->data)) {
-				$this->Session->setFlash(__('The transport has been saved'));
-				$this->redirect(array('action' => 'index'));
+		$resultQuery = $this->Transport->query("SELECT * FROM transports WHERE id_api = '$id';");
+		
+		//Si le moyen de transport n'a jamais été ajouté à la BDD
+		if(!empty($resultQuery)) {
+			$ident = $resultQuery[0]['transports']['id'];
+			$like = $resultQuery[0]['transports']['like'];
+			$unlike = $resultQuery[0]['transports']['unlike'];
+			$id_api = $resultQuery[0]['transports']['id_api'];
+
+			if($type == 1){
+			$success=$this->Transport->save(array(
+				'id' => $ident,
+				'like' => $like+1,
+				'unlike' => $unlike,
+				'id_api' => "$id"
+				));
 			} else {
-				$this->Session->setFlash(__('The transport could not be saved. Please, try again.'));
+				$success=$this->Transport->save(array(
+				'id' => $ident,
+				'like' => $like,
+				'unlike' => $unlike+1,
+				'id_api' => "$id"
+				));
 			}
 		}
+		 $this->redirect($this->referer());
+		//$this->redirect(array('action' => 'result'));
+
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		if (!$this->Transport->exists($id)) {
-			throw new NotFoundException(__('Invalid transport'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Transport->save($this->request->data)) {
-				$this->Session->setFlash(__('The transport has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The transport could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('Transport.' . $this->Transport->primaryKey => $id));
-			$this->request->data = $this->Transport->find('first', $options);
-		}
-	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		$this->Transport->id = $id;
-		if (!$this->Transport->exists()) {
-			throw new NotFoundException(__('Invalid transport'));
-		}
-		$this->request->onlyAllow('post', 'delete');
-		if ($this->Transport->delete()) {
-			$this->Session->setFlash(__('Transport deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Transport was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
 }

@@ -17,7 +17,7 @@
   }
 </script>
 
-<?php echo $this->Form->create('Transports', array('action' => 'result'));?>
+<?php echo $this->Form->create('Transports', array('action' => 'result','type' => 'get'));?>
 <div class="transports form">
 <div>
 <input type= "radio" name="data[Transport][Choix]" value="velo" onclick="$('div.divStation').show('medium');$('div.divDestination').hide(100);$('div.divNumBus').hide(100);"> Velô
