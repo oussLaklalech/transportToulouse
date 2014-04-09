@@ -1,6 +1,5 @@
 <?php 
       $json = json_encode ( $destinationLigne, JSON_FORCE_OBJECT );
-
 ?>
 
 <script type="text/javascript">
@@ -17,24 +16,26 @@
     }
   }
 </script>
-<div class="transports form">
-<form>
-<input type= "radio" name="moyen" value="velo" onclick="$('div.divStation').show('medium');$('div.divDestination').hide(100);$('div.divNumBus').hide(100);"> Velô
-<input type= "radio" name="moyen" value="bus" onclick="$('div.divStation').hide(100);$('div.divDestination').show('medium');$('div.divNumBus').show('medium');maFonction()"> Bus
-<input type= "radio" name="moyen" value="metro" onclick=""> Metro
-<input type= "radio" name="moyen" value="peuimporte" onclick="$('div.divStation').hide(100);$('div.divDestination').show('medium');$('div.divNumBus').hide(100);"> Peu importe
-</form>
 
 <?php echo $this->Form->create('Transports', array('action' => 'result'));?>
+<div class="transports form">
+<div>
+<input type= "radio" name="data[Transport][Choix]" value="velo" onclick="$('div.divStation').show('medium');$('div.divDestination').hide(100);$('div.divNumBus').hide(100);"> Velô
 
+<input type= "radio" name="data[Transport][Choix]" value="busMetro" onclick="$('div.divStation').hide(100);$('div.divDestination').show('medium');$('div.divNumBus').show('medium');maFonction()" style="margin-left : 15px"> Bus / Metro
+
+<input type= "radio" name="data[Transport][Choix]" value="peuImporte" onclick="$('div.divStation').hide(100);$('div.divDestination').show('medium');$('div.divNumBus').hide(100);" style="margin-left : 15px"> Peu importe
+</div>
+<br/><br/>
 <!--*******************************div Station ************************************-->
 <div class="divStation" style="display:none;">
 <label>Station : </label> 
 <select name="data[Transport][Station]">
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="mercedes">Mercedes</option>
-  <option value="audi">Audi</option>
+  <?php
+    foreach ($stationVelo as $value) {
+      echo '<option value = "'.$value.'">'.$value.'</option>';
+    }
+  ?>
 </select>
 </div>
 
@@ -47,13 +48,13 @@
  for ($j=1; $j <count($DestinationsBus->physicalStop) ; $j++) { 
       echo '<option value="'.$DestinationsBus->physicalStop[$j]->destinations[0]->name.'" > '.$DestinationsBus->physicalStop[$j]->destinations[0]->name.'</option>';
     }
-?> 
+?>
 </select>
 </div>
 
 <!--*********************************div num bus ************************************-->
 <div class="divNumBus" style="display:none;">
-<label>Numero du BUS : </label>
+<label>Numero du BUS / ligne Metro : </label>
 
 
 <select name="data[Transport][numBus]" id="selectNumBus">
@@ -62,7 +63,7 @@
 ?>
 </select>
 </div>
-
+<br/>
 <button type="submit" class="ok">Chercher</button> 
 </form>
 </div>
