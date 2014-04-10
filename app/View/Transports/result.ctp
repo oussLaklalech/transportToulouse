@@ -145,7 +145,7 @@ if($choix == "busMetro"){
 		</p>
 		<br/>
 <div class="maligne" /></div> 
-<div class="footer">&raquo; <a href="">j'aime</a> | <a href="">J'aime pas</a></div>
+<div class="footer">&raquo; <a href="/transportApp/transports/like/1/<?php echo $nimporte[$i]->departures->departure[0]->line->shortName;?>">j'aime (<?php echo $nblike[$i];?>)</a> | <a href="/transportApp/transports/like/1/<?php echo $nimporte[$i]->departures->departure[0]->line->shortName;?>">J'aime pas (<?php echo $nblike[$i];?>)</a></div>
 		<?php 
 		break;
 		}

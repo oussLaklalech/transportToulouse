@@ -22079,3 +22079,295 @@ Request URL: /transportApp/img/i_ok.png
 Stack Trace:
 #0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2014-04-10 18:02:31 Error: [MissingActionException] Action TransportsController::index() could not be found.
+Exception Attributes: array (
+  'controller' => 'TransportsController',
+  'action' => 'index',
+)
+Request URL: /transportApp/Transports
+Stack Trace:
+#0 C:\wamp\www\transportApp\lib\Cake\Routing\Dispatcher.php(187): Controller->invokeAction(Object(CakeRequest))
+#1 C:\wamp\www\transportApp\lib\Cake\Routing\Dispatcher.php(162): Dispatcher->_invoke(Object(TransportsController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2014-04-10 18:02:51 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:02:52 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/img/i_ok.png
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:03:14 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:03:42 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:03:43 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/img/i_ok.png
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:05:11 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:05:32 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:05:56 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:06:05 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:06:06 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/img/i_ok.png
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:17:54 Error: Fatal Error (4): syntax error, unexpected T_PUBLIC in [C:\wamp\www\transportApp\app\Controller\TransportsController.php, line 237]
+2014-04-10 18:17:54 Error: [FatalErrorException] syntax error, unexpected T_PUBLIC
+Request URL: /transportApp/transports/result?data%5BTransport%5D%5BChoix%5D=peuImporte&data%5BTransport%5D%5BStation%5D=00227+-+METRO+UPS&data%5BTransport%5D%5BDestination%5D=Ar%C3%A8nes
+Stack Trace:
+#0 C:\wamp\www\transportApp\lib\Cake\Error\ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'C:\wamp\www\tra...', 237)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'C:\wamp\www\tra...', 237, Array)
+#2 C:\wamp\www\transportApp\lib\Cake\Core\App.php(931): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'C:\wamp\www\tra...', 237, Array)
+#3 C:\wamp\www\transportApp\lib\Cake\Core\App.php(904): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-04-10 18:18:25 Error: Fatal Error (4): syntax error, unexpected T_PUBLIC in [C:\wamp\www\transportApp\app\Controller\TransportsController.php, line 237]
+2014-04-10 18:18:25 Error: [FatalErrorException] syntax error, unexpected T_PUBLIC
+Request URL: /transportApp/transports/result?data%5BTransport%5D%5BChoix%5D=peuImporte&data%5BTransport%5D%5BStation%5D=00227+-+METRO+UPS&data%5BTransport%5D%5BDestination%5D=Ar%C3%A8nes
+Stack Trace:
+#0 C:\wamp\www\transportApp\lib\Cake\Error\ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'C:\wamp\www\tra...', 237)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'C:\wamp\www\tra...', 237, Array)
+#2 C:\wamp\www\transportApp\lib\Cake\Core\App.php(931): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'C:\wamp\www\tra...', 237, Array)
+#3 C:\wamp\www\transportApp\lib\Cake\Core\App.php(904): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-04-10 18:19:14 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:44:08 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:46:27 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:49:39 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:52:39 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 18:54:43 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:02:38 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:02:49 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:02:49 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/img/i_ok.png
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:03:04 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:04:28 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:12:30 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:12:30 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/img/i_ok.png
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:12:53 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:12:53 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/img/i_ok.png
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:14:10 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:14:11 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/img/i_ok.png
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:16:47 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/js/jquery.js
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-04-10 19:16:47 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /transportApp/img/i_ok.png
+Stack Trace:
+#0 C:\wamp\www\transportApp\app\webroot\index.php(111): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}

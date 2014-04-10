@@ -51,6 +51,30 @@ class TransportsController extends AppController {
 		}
 		$this->set('stationVelo',$stationVelo);
 	}
+
+	//récupération des des infos ou perturbations
+	for ($i=0; $i <count($infosBus->stopAreas->stopArea[0]->line) ; $i++) { 
+		$numeroBus[$i]=$infosBus->stopAreas->stopArea[0]->line[$i]->shortName;	
+		}
+
+		$ruptureView=array();
+		$rupture = new HttpSocket(array('ssl_allow_self_signed' => true));//Retourne les destinations + LignesBus
+		$rupture = $rupture -> get("http://pt.data.tisseo.fr/linesDisruptedList?format=json&key=a03561f2fd10641d96fb8188d209414d8");
+		$rupture = json_decode($rupture);
+		//debug($rupture);
+
+		//debug($numeroBus);
+		for ($k=0; $k <count($rupture->lines) ; $k++) { 
+
+		if(in_array ($rupture->lines[$k]->line->shortname  , $numeroBus )){
+		array_push($ruptureView, $rupture->lines[$k]->line);
+
+		}
+		}
+
+		//debug($ruptureView);	
+
+		$this->set('rupture',$ruptureView);
 }
 
 /**
@@ -173,7 +197,6 @@ class TransportsController extends AppController {
 			$infosBus4 = $infosBus4 -> get("http://pt.data.tisseo.fr/stopPointsList?format=json&lineShortName=54&stopAreaId=1970324837185012&displayLines=1&key=a03561f2fd10641d96fb8188d209414d8");
 			$infosBus4 = json_decode($infosBus4);
 
-			//debug($infosBus4);
 			$valeur=array();
 			$Idline=array();
 
@@ -195,7 +218,37 @@ class TransportsController extends AppController {
 				$ResultBus[$i] = $ResultBus[$i] -> get("http://pt.data.tisseo.fr/departureBoard?lineId=".$Idline[$i]."&operatorCode=".$valeur[$i]."&format=json&key=a03561f2fd10641d96fb8188d209414d8");
 				$ResultBus[$i] = json_decode($ResultBus[$i]);	
 				}
-			
+				
+				$listNumBus = array();
+
+				//retouner tous les numeros de Bus de la BDD
+				$resultQuery = $this->Transport->query("SELECT * FROM transports;");
+				
+			for($j = 0; $j < count($resultQuery); $j++) {
+				for ($i=0; $i < count($ResultBus[0]->departures->departure); $i++) { 
+					$id_api = $ResultBus[0]->departures->departure[$i]->line->shortName;
+
+					if($id_api == $resultQuery[$j]['transports']['id_api']) {
+						$nblike[$i]=$resultQuery[$j]['transports']['like'];
+						$nbunlike[$i]=$resultQuery[$j]['transports']['unlike'];
+					} else {
+						if(isset($id_api)) {
+						$success=$this->Transport->save(array(
+							'like' => 0,
+							'unlike' => 0,
+							'id_api' => "$id_api"
+							));
+						$nblike[$i] = 0;
+						$nbunlike[$i] = 0;
+						}
+					}
+
+				}
+			}
+
+
+				$this->set('nblike',$nblike);
+				$this->set('nbunlike',$nbunlike);
 				$this->set('nimporte',$ResultBus);
 				$this->set('choix',$data['Transport']['Choix']);
 			}

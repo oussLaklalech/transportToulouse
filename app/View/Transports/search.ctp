@@ -1,3 +1,12 @@
+<style>
+.maligne
+{
+margin-bottom:3px;
+border-bottom: solid 2px #336699;
+width:100%;
+} 
+</style>
+
 <?php 
       $json = json_encode ( $destinationLigne, JSON_FORCE_OBJECT );
 ?>
@@ -20,11 +29,13 @@
 <?php echo $this->Form->create('Transports', array('action' => 'result','type' => 'get'));?>
 <div class="transports form">
 <div>
-<input type= "radio" name="data[Transport][Choix]" value="velo" onclick="$('div.divStation').show('medium');$('div.divDestination').hide(100);$('div.divNumBus').hide(100);"> Velô
+<input type= "radio" name="data[Transport][Choix]" value="velo" onclick="$('.ok').show('medium');$('div.divStation').show('medium');$('div.divDestination').hide(100);$('div.divNumBus').hide(100);$('div.divInfos').hide(100);"> Velô
 
-<input type= "radio" name="data[Transport][Choix]" value="busMetro" onclick="$('div.divStation').hide(100);$('div.divDestination').show('medium');$('div.divNumBus').show('medium');maFonction()" style="margin-left : 15px"> Bus / Metro
+<input type= "radio" name="data[Transport][Choix]" value="busMetro" onclick="$('.ok').show('medium');$('div.divStation').hide(100);$('div.divDestination').show('medium');$('div.divNumBus').show('medium');$('div.divInfos').hide(100);maFonction()" style="margin-left : 15px"> Bus / Metro
 
-<input type= "radio" name="data[Transport][Choix]" value="peuImporte" onclick="$('div.divStation').hide(100);$('div.divDestination').show('medium');$('div.divNumBus').hide(100);" style="margin-left : 15px"> Peu importe
+<input type= "radio" name="data[Transport][Choix]" value="peuImporte" onclick="$('.ok').show('medium');$('div.divStation').hide(100);$('div.divDestination').show('medium');$('div.divNumBus').hide(100);$('div.divInfos').hide(100);" style="margin-left : 15px"> Peu importe
+
+<input type= "radio" name="data[Transport][Choix]" value="info" onclick="$('.ok').hide(100);$('div.divStation').hide(100);$('div.divDestination').hide(100);$('div.divNumBus').hide(100);$('div.divInfos').show('medium');" style="margin-left : 15px"> infos
 </div>
 <br/><br/>
 <!--*******************************div Station ************************************-->
@@ -63,6 +74,32 @@
 ?>
 </select>
 </div>
+
+<!--*********************************div infos ************************************-->
+<div class="divInfos" style="display:none;">
+<p><?php 
+
+for ($i=0; $i <count($rupture) ; $i++) { 
+  ?>
+<h3> numero bus : </h3>  
+<?php
+  echo $rupture[$i]->shortname;
+?>
+<h3> message : </h3>
+<?php
+echo $rupture[$i]->disturbMessage->content ;
+?>
+<br/>
+<div class="maligne" /></div> 
+
+<?php
+}
+?></p>
+
+</div>
+<br/>
+<!--*********************************div infos ************************************-->
+
 <br/>
 <button type="submit" class="ok">Chercher</button> 
 </form>
